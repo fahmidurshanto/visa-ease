@@ -73,14 +73,14 @@ const Login = () => {
           <div className="mb-4 text-right">
             <Link
               to="/forgot-password"
-              className="text-sm text-blue-500 hover:underline"
+              className="text-sm text-blue-500 hover:underline cursor-pointer"
             >
               Forgot Password?
             </Link>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200 cursor-pointer"
           >
             Login
           </button>
@@ -104,11 +104,12 @@ const Login = () => {
             onClick={()=> googleLogin().then(res => {
                 const loggedInUser = res.user;
                 toast.success(`${loggedInUser.displayName}, Welcome to Visa Ease`)
+                navigate('/')
             })
             .catch((err)=>{
                 console.log(err.message);
             })}
-              className="w-full flex items-center justify-center bg-white py-2 rounded-lg hover:bg-blue-600 border hover:text-white transition duration-200"
+              className="w-full flex items-center justify-center bg-white py-2 rounded-lg hover:bg-blue-600 border hover:text-white transition duration-200 cursor-pointer"
             >
               <FcGoogle className="text-3xl pr-1.5" />
               Continue with Google

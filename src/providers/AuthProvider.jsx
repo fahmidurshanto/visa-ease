@@ -35,18 +35,17 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  useEffect(() => {
-    const unsubscribe = () => {
-      onAuthStateChanged(auth, (user) => {
-        console.log(`Current user's email is : ${user.email}`);
-        setUser(user);
+  useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
+        console.log(`Current user's email is ${currentUser.email}`);
+        setUser(currentUser);
         setLoading(false);
         return ()=>{
-            unsubscribe()
+            unsubscribe();
         }
-      });
-    };
-  }, []);
+    })
+  },[])
+ 
 
   const authInfo = {
     createUser,

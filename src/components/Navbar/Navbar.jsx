@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "animate.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 
-const Navbar = ({ user, handleLogout }) => {
+const Navbar = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);  
+  const {logout, user} = useContext(AuthContext)
+  const navigate = useNavigate();
   const handleProfileHover = () => {
     setIsDropdownVisible(true);
   };
@@ -110,8 +112,7 @@ const Navbar = ({ user, handleLogout }) => {
           ) : (
             <div className="relative">
               <div
-                onMouseEnter={handleProfileHover}
-                onMouseLeave={handleProfileLeave}
+                onClick={handleProfileHover}
                 className="cursor-pointer"
               >
                 <img
@@ -129,7 +130,7 @@ const Navbar = ({ user, handleLogout }) => {
                       {user.displayName}
                     </p>
                     <button
-                      onClick={handleLogout}
+                      onClick={logout}
                       className="mt-2 w-full bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"
                     >
                       Logout
@@ -144,8 +145,8 @@ const Navbar = ({ user, handleLogout }) => {
 
       {/* Mobile Menu (Dropdown) */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden mt-4">
-          <div className="flex flex-col space-y-4">
+        <div className="lg:hidden mt-4 bg-white ">
+          <div className="flex flex-col space-y-4 animate__animated animate__backInDown  ">
             <Link
               to="/"
               className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
@@ -209,6 +210,7 @@ const Navbar = ({ user, handleLogout }) => {
             ) : (
               <div className="relative">
                 <div
+                  onClick={!handleProfileHover}
                   onMouseEnter={handleProfileHover}
                   onMouseLeave={handleProfileLeave}
                   className="cursor-pointer"
@@ -225,10 +227,13 @@ const Navbar = ({ user, handleLogout }) => {
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg animate__animated animate__fadeIn">
                     <div className="p-4">
                       <p className="text-gray-800 font-semibold">
-                        {user.displayName}
+                        {user.displayName || user.email}
                       </p>
                       <button
-                        onClick={handleLogout}
+                        onClick={()=> {
+                          navigate("/login")
+                          logout();
+                        }}
                         className="mt-2 w-full bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"
                       >
                         Logout
