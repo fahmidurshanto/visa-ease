@@ -1,50 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
+import "animate.css";
 import { Link } from "react-router-dom";
-import logo from "../../assets/visa_ease_logo.png";
 
-const Navbar = ({ isLoggedIn, user, handleLogout }) => {
+const Navbar = ({ user, handleLogout }) => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleProfileHover = () => {
+    setIsDropdownVisible(true);
+  };
+
+  const handleProfileLeave = () => {
+    setIsDropdownVisible(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <nav className="bg-white shadow-lg text-gray-600">
-      <div className="container mx-auto flex justify-between items-center p-4">
+    <nav className="bg-transparent p-4 fixed w-full z-50 shadow-md animate__animated animate__fadeInLeft">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Website Name/Logo */}
         <Link
           to="/"
-          className="text-gray-600 text-2xl font-bold animate__animated animate__fadeInLeft"
+          className="text-gray-700 text-2xl font-bold animate__animated animate__fadeInLeft hover:text-gray-900"
         >
-          <img src={logo} className="w-32 h-24" alt="VISA EASE" />
+          VisaHub
         </Link>
 
-        {/* Navigation Links */}
-        <div className="flex items-center space-x-6">
+        {/* Hamburger Menu for Mobile */}
+        <button
+          onClick={toggleMobileMenu}
+          className="lg:hidden text-gray-700 hover:text-gray-900 focus:outline-none"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+
+        {/* Nav Links (Desktop) */}
+        <div className="hidden lg:flex items-center space-x-6">
           <Link
             to="/"
-            className="text-gray-600 hover:text-blue-500 transition duration-300 animate__animated animate__pulse"
+            className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
           >
             Home
           </Link>
           <Link
             to="/all-visas"
-            className="text-gray-600 hover:text-blue-500 transition duration-300 animate__animated animate__pulse"
+            className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
           >
             All Visas
           </Link>
-          {isLoggedIn && (
+
+          {/* Protected Routes */}
+          {user && (
             <>
               <Link
                 to="/add-visa"
-                className="text-gray-600 hover:text-blue-500 transition duration-300 animate__animated animate__pulse"
+                className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
               >
                 Add Visa
               </Link>
               <Link
                 to="/my-added-visas"
-                className="text-gray-600 hover:text-blue-500 transition duration-300 animate__animated animate__pulse"
+                className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
               >
                 My Added Visas
               </Link>
               <Link
                 to="/my-visa-applications"
-                className="text-gray-600 hover:text-blue-500 transition duration-300 animate__animated animate__pulse"
+                className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
               >
                 My Visa Applications
               </Link>
@@ -52,45 +90,157 @@ const Navbar = ({ isLoggedIn, user, handleLogout }) => {
           )}
         </div>
 
-        {/* Conditional Rendering for Login/Register or User Profile */}
-        <div className="flex items-center space-x-4">
-          {!isLoggedIn ? (
+        {/* Conditional Login/Register or User Profile (Desktop) */}
+        <div className="hidden lg:flex items-center space-x-4">
+          {!user ? (
             <>
               <Link
                 to="/login"
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 animate__animated animate__pulse animate__infinite"
+                className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__rubberBand"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 animate__animated animate__pulse animate__infinite"
+                className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__rubberBand"
               >
                 Register
               </Link>
             </>
           ) : (
-            <div className="flex items-center space-x-4">
-              <div className="relative group">
+            <div className="relative">
+              <div
+                onMouseEnter={handleProfileHover}
+                onMouseLeave={handleProfileLeave}
+                className="cursor-pointer"
+              >
                 <img
                   src={user.photoURL}
                   alt="Profile"
-                  className="w-10 h-10 rounded-full cursor-pointer animate__animated animate__fadeInRight"
+                  className="w-10 h-10 rounded-full animate__animated animate__fadeInRight border-2 border-gray-700 hover:border-gray-900"
                 />
-                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {user.displayName}
-                </span>
               </div>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 animate__animated animate__pulse animate__infinite"
-              >
-                Logout
-              </button>
+
+              {/* Dropdown for Display Name and Logout */}
+              {isDropdownVisible && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg animate__animated animate__fadeIn">
+                  <div className="p-4">
+                    <p className="text-gray-800 font-semibold">
+                      {user.displayName}
+                    </p>
+                    <button
+                      onClick={handleLogout}
+                      className="mt-2 w-full bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
+
+      {/* Mobile Menu (Dropdown) */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden mt-4">
+          <div className="flex flex-col space-y-4">
+            <Link
+              to="/"
+              className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
+              onClick={toggleMobileMenu}
+            >
+              Home
+            </Link>
+            <Link
+              to="/all-visas"
+              className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
+              onClick={toggleMobileMenu}
+            >
+              All Visas
+            </Link>
+
+            {/* Protected Routes */}
+            {user && (
+              <>
+                <Link
+                  to="/add-visa"
+                  className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
+                  onClick={toggleMobileMenu}
+                >
+                  Add Visa
+                </Link>
+                <Link
+                  to="/my-added-visas"
+                  className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
+                  onClick={toggleMobileMenu}
+                >
+                  My Added Visas
+                </Link>
+                <Link
+                  to="/my-visa-applications"
+                  className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
+                  onClick={toggleMobileMenu}
+                >
+                  My Visa Applications
+                </Link>
+              </>
+            )}
+
+            {/* Conditional Login/Register or User Profile */}
+            {!user ? (
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__rubberBand"
+                  onClick={toggleMobileMenu}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__rubberBand"
+                  onClick={toggleMobileMenu}
+                >
+                  Register
+                </Link>
+              </>
+            ) : (
+              <div className="relative">
+                <div
+                  onMouseEnter={handleProfileHover}
+                  onMouseLeave={handleProfileLeave}
+                  className="cursor-pointer"
+                >
+                  <img
+                    src={user.photoURL}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full animate__animated animate__fadeInRight border-2 border-gray-700 hover:border-gray-900"
+                  />
+                </div>
+
+                {/* Dropdown for Display Name and Logout */}
+                {isDropdownVisible && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg animate__animated animate__fadeIn">
+                    <div className="p-4">
+                      <p className="text-gray-800 font-semibold">
+                        {user.displayName}
+                      </p>
+                      <button
+                        onClick={handleLogout}
+                        className="mt-2 w-full bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
