@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // For navigation
+import React, {  useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // For navigation
 import { FcGoogle } from "react-icons/fc"; // Google icon
 import "animate.css"; // For animations
+import { AuthContext } from "../../providers/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
 
 const Register = () => {
   const [passwordError, setPasswordError] = useState("");
+  const {createUser} = useContext(AuthContext);
 
+  const navigate = useNavigate();
   // Function to validate password (dummy implementation, you can replace it later)
   const validatePassword = (password) => {
     const uppercaseRegex = /[A-Z]/;
@@ -24,6 +28,25 @@ const Register = () => {
     return ""; 
   };
 
+  const handleSignUp = (e) =>{
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const photoURL = form.photoURL.value;
+    const password = form.password.value;
+    console.log(email, password);
+    createUser(email, password)
+    .then(res => {
+      console.log("New user: ",res.user.email);
+      toast.success(`User created successfully ${res?.user?.email}`)
+      navigate ("/")
+    })
+    .catch(err=> {
+      toast.error(err?.message)
+    })
+  }
+
   // Handle password change
   const handlePasswordChange = (e) => {
     const password = e.target.value;
@@ -32,10 +55,10 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md animate__animated animate__fadeIn">
         <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
-        <form>
+        <form onSubmit={handleSignUp}>
           {/* Name Field */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="name">
@@ -72,7 +95,7 @@ const Register = () => {
               Photo URL
             </label>
             <input
-              type="url"
+              type="text"
               id="photoURL"
               name="photoURL"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -139,6 +162,18 @@ const Register = () => {
           </div>
         </div>
       </div>
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

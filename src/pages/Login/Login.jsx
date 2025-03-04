@@ -20,7 +20,7 @@ const Login = () => {
     login(email, password)
       .then((res) => {
         // Display success toast
-        toast.success("Login successful! Redirecting...", {
+        toast.success(res.user.email ,"Login successful! Redirecting...", {
           autoClose: 2000,
           onClose: () => {
             // Redirect to desired route after toast closes
