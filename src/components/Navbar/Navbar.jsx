@@ -22,14 +22,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-transparent p-4 fixed w-full z-50 shadow-md animate__animated animate__fadeInLeft">
+    <nav className="bg-white p-4 fixed w-full z-50 shadow-md animate__animated animate__fadeInLeft">
       <div className="container mx-auto flex justify-between items-center">
         {/* Website Name/Logo */}
         <Link
           to="/"
           className="text-gray-700 text-2xl font-bold animate__animated animate__fadeInLeft hover:text-gray-900"
         >
-          VisaHub
+          VisaEase
         </Link>
 
         {/* Hamburger Menu for Mobile */}
@@ -38,7 +38,7 @@ const Navbar = () => {
           className="lg:hidden text-gray-700 hover:text-gray-900 focus:outline-none"
         >
           <svg
-            className="w-6 h-6"
+            className="w-6 h-6 cursor-pointer"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ const Navbar = () => {
       {/* Mobile Menu (Dropdown) */}
       {isMobileMenuOpen && (
         <div className="lg:hidden mt-4 bg-white ">
-          <div className="flex flex-col space-y-4 animate__animated animate__backInDown  ">
+          <div className="flex flex-col space-y-4 animate__animated animate__slideInLeft  ">
             <Link
               to="/"
               className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
