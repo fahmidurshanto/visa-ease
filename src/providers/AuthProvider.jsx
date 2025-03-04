@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setLoading(true);
     return signOut(auth).then(() => {
-        alert("Logout successfully")
+        console.log("Logout successfully")
     });
   };
 

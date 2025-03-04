@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar"
 function App() {
 
   return (
-    <div className="bg-jar">
+    <div>
       <Navbar></Navbar>
       <Outlet></Outlet>
     </div>

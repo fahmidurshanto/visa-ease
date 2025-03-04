@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import "animate.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -231,6 +232,7 @@ const Navbar = () => {
                       </p>
                       <button
                         onClick={()=> {
+                          toast.success("You are logged out successfully")
                           navigate("/login")
                           logout();
                         }}
@@ -246,6 +248,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      <ToastContainer></ToastContainer>
     </nav>
   );
 };
