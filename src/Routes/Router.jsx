@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AddVisa from "../pages/AddVisa/AddVisa";
+import AllVisa from "../pages/AllVisa/AllVisa";
 
 const Router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const Router = createBrowserRouter([
             {
                 path: "/add-visa",
                 element: <AddVisa></AddVisa>
+            },
+            {
+                path: "/all-visas",
+                element: <AllVisa></AllVisa>
             }
         ]
     }

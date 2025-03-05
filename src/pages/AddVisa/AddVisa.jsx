@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "animate.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddVisa = () => {
   // State to manage form inputs
@@ -34,6 +35,7 @@ const AddVisa = () => {
     e.preventDefault();
     console.log("Form Data:", formData);
     // Add logic to submit the form data to an API or state management
+    toast.success(`Visa information are: ${formData.visaType}`)
   };
 
   return (
@@ -52,7 +54,7 @@ const AddVisa = () => {
               value={formData.countryImage}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter image URL (e.g., from imgbb)"
+              placeholder="Enter image URL"
               required
             />
           </div>
@@ -216,13 +218,25 @@ const AddVisa = () => {
           <div className="animate__animated animate__fadeInUp">
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200 cursor-pointer"
             >
               Add Visa
             </button>
           </div>
         </form>
       </div>
+      <ToastContainer 
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+      ></ToastContainer>
     </div>
   );
 };
