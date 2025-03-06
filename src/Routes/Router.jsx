@@ -5,6 +5,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AddVisa from "../pages/AddVisa/AddVisa";
 import AllVisa from "../pages/AllVisa/AllVisa";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
     {
@@ -25,7 +26,7 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/add-visa",
-                element: <AddVisa></AddVisa>
+                element: <PrivateRoute><AddVisa></AddVisa></PrivateRoute>
             },
             {
                 path: "/all-visas",
