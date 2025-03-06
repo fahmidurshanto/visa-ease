@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../providers/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ClipLoader } from "react-spinners"; // Import a spinner
+import { ClipLoader } from "react-spinners";
 
 const Login = () => {
   const { login, googleLogin, loading } = useContext(AuthContext);
