@@ -1,41 +1,66 @@
 import React, { useState } from "react";
 import "animate.css";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddVisa = () => {
-  // State to manage form inputs
-  const [formData, setFormData] = useState({
-    countryImage: "",
-    countryName: "",
-    visaType: "",
-    processingTime: "",
-    requiredDocuments: [],
-    description: "",
-    ageRestriction: "",
-    fee: "",
-    validity: "",
-    applicationMethod: "",
-  });
-
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      const updatedDocuments = checked
-        ? [...formData.requiredDocuments, value]
-        : formData.requiredDocuments.filter((doc) => doc !== value);
-      setFormData({ ...formData, requiredDocuments: updatedDocuments });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
+  const [visaInfo, setVisaInfo] = useState([]);
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    // Add logic to submit the form data to an API or state management
-    toast.success(`Visa information are: ${formData.visaType}`)
+
+    // Extract form data using e.target
+    const form = e.target;
+    const countryImage = form.countryImage.value;
+    const countryName = form.countryName.value;
+    const visaType = form.visaType.value;
+    const processingTime = form.processingTime.value;
+    const requiredDocuments = Array.from(form.requiredDocuments)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
+    const description = form.description.value;
+    const ageRestriction = form.ageRestriction.value;
+    const fee = form.fee.value;
+    const validity = form.validity.value;
+    const applicationMethod = form.applicationMethod.value;
+
+    const formData = {
+      countryImage,
+      countryName,
+      visaType,
+      processingTime,
+      requiredDocuments,
+      description,
+      ageRestriction,
+      fee,
+      validity,
+      applicationMethod
+    };
+
+    setVisaInfo(formData)
+
+    // Send data to the backend
+    fetch("http://localhost:5000/all-visa", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(visaInfo),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          toast.success("Visa added successfully!");
+          form.reset(); // Reset the form after successful submission
+        } else {
+          toast.error("Failed to add visa. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+        toast.error("An error occurred. Please try again.");
+      });
   };
 
   return (
@@ -51,9 +76,7 @@ const AddVisa = () => {
             <input
               type="text"
               name="countryImage"
-              value={formData.countryImage}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-countryName px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter image URL"
               required
             />
@@ -65,8 +88,6 @@ const AddVisa = () => {
             <input
               type="text"
               name="countryName"
-              value={formData.countryName}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter country name"
               required
@@ -78,13 +99,11 @@ const AddVisa = () => {
             <label className="block text-sm font-medium mb-2">Visa Type</label>
             <select
               name="visaType"
-              value={formData.visaType}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="wprocessingTime px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             >
               <option value="">Select Visa Type</option>
-              <option value="Tourist Visa">Tourist Visa</option>
+              <option value="Schengen Tourist Visa">Schengen Tourist Visa</option>
               <option value="Student Visa">Student Visa</option>
               <option value="Official Visa">Official Visa</option>
             </select>
@@ -96,10 +115,8 @@ const AddVisa = () => {
             <input
               type="text"
               name="processingTime"
-              value={formData.processingTime}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter processing time (e.g., 10-15 Business Days)"
+              placeholder="Enter processing time (e.g., 10 working days)"
               required
             />
           </div>
@@ -112,34 +129,46 @@ const AddVisa = () => {
                 <input
                   type="checkbox"
                   name="requiredDocuments"
-                  value="Valid Passport"
-                  checked={formData.requiredDocuments.includes("Valid Passport")}
-                  onChange={handleChange}
+                  value="Valid passport"
                   className="mr-2"
                 />
-                Valid Passport
+                Valid passport
               </label>
               <label className="flex items-center">
                 <input
                   type="checkbox"
                   name="requiredDocuments"
-                  value="Visa Application Form"
-                  checked={formData.requiredDocuments.includes("Visa Application Form")}
-                  onChange={handleChange}
+                  value="Travel insurance"
                   className="mr-2"
                 />
-                Visa Application Form
+                Travel insurance
               </label>
               <label className="flex items-center">
                 <input
                   type="checkbox"
                   name="requiredDocuments"
-                  value="Recent Passport-Sized Photograph"
-                  checked={formData.requiredDocuments.includes("Recent Passport-Sized Photograph")}
-                  onChange={handleChange}
+                  value="Flight itinerary"
                   className="mr-2"
                 />
-                Recent Passport-Sized Photograph
+                Flight itinerary
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="requiredDocuments"
+                  value="Hotel bookings"
+                  className="mr-2"
+                />
+                Hotel bookings
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="requiredDocuments"
+                  value="Proof of financial means"
+                  className="mr-2"
+                />
+                Proof of financial means
               </label>
             </div>
           </div>
@@ -149,8 +178,6 @@ const AddVisa = () => {
             <label className="block text-sm font-medium mb-2">Description</label>
             <textarea
               name="description"
-              value={formData.description}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter visa description"
               rows="4"
@@ -162,12 +189,10 @@ const AddVisa = () => {
           <div className="animate__animated animate__fadeInLeft" style={{ animationDelay: "0.6s" }}>
             <label className="block text-sm font-medium mb-2">Age Restriction</label>
             <input
-              type="number"
+              type="text"
               name="ageRestriction"
-              value={formData.ageRestriction}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter age restriction"
+              placeholder="Enter age restriction (e.g., None)"
               required
             />
           </div>
@@ -178,8 +203,6 @@ const AddVisa = () => {
             <input
               type="number"
               name="fee"
-              value={formData.fee}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter visa fee"
               required
@@ -192,10 +215,8 @@ const AddVisa = () => {
             <input
               type="text"
               name="validity"
-              value={formData.validity}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter visa validity (e.g., 6 Months)"
+              placeholder="Enter visa validity (e.g., 90 days)"
               required
             />
           </div>
@@ -206,10 +227,8 @@ const AddVisa = () => {
             <input
               type="text"
               name="applicationMethod"
-              value={formData.applicationMethod}
-              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter application method (e.g., Online)"
+              placeholder="Enter application method (e.g., In-person embassy application)"
               required
             />
           </div>
@@ -225,18 +244,7 @@ const AddVisa = () => {
           </div>
         </form>
       </div>
-      <ToastContainer 
-      position="bottom-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-      ></ToastContainer>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
