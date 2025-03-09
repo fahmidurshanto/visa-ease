@@ -40,7 +40,7 @@ const AddVisa = () => {
     setVisaInfo(formData)
 
     // Send data to the backend
-    fetch("http://localhost:5000/all-visa", {
+    fetch("http://localhost:5000/added-visa", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

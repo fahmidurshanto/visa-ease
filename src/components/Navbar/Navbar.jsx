@@ -78,7 +78,7 @@ const Navbar = () => {
                 Add Visa
               </Link>
               <Link
-                to="/my-added-visas"
+                to="/my-added-visa"
                 className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
               >
                 My Added Visas
@@ -174,7 +174,7 @@ const Navbar = () => {
                   Add Visa
                 </Link>
                 <Link
-                  to="/my-added-visas"
+                  to="/my-added-visa"
                   className="text-gray-700 hover:text-gray-900 animate__animated hover:animate__bounce"
                   onClick={toggleMobileMenu}
                 >
