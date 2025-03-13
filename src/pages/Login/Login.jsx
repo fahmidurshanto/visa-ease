@@ -22,6 +22,7 @@ const Login = () => {
         // Display success toast
         toast.success(`${res.user.email} Login successful! Redirecting...`);
         navigate("/");
+
       })
       .catch((err) => {
         // Display error toast

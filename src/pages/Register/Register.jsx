@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,  useEffect,  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import "animate.css";
@@ -8,8 +8,15 @@ import { ClipLoader } from "react-spinners"; // Import a spinner
 
 const Register = () => {
   const [passwordError, setPasswordError] = useState("");
+  const [users, setUsers] = useState(null)
   const { createUser, googleLogin, loading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() =>{
+    fetch("http://localhost:5000/users")
+    .then(res => res.json())
+    .then(data =>setUsers(data))
+  },[])
 
   const validatePassword = (password) => {
     const uppercaseRegex = /[A-Z]/;
@@ -46,12 +53,16 @@ const Register = () => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      toast.success(`User added to database ${data.insertedId}`);
     })
+
+   
 
     createUser(email, password)
       .then((res) => {
         console.log("New user: ", res.user.email);
+        
+        console.log("New user photo: ", res?.user?.photoURL);
         toast.success(`User created successfully ${res?.user?.email}`);
         navigate("/");
       })

@@ -1,53 +1,73 @@
 import React, { useContext, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "animate.css";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const VisaDetails = () => {
+  // State to manage modal visibility and selected visa
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVisa, setSelectedVisa] = useState(null);
-  const {user} = useContext(AuthContext)
-  const visaDetails = useLoaderData();
-  console.log(visaDetails);
-  // Placeholder for visa data
-  const visas = [
-    {
-      countryImage: visaDetails.countryImage,
-      countryName: visaDetails.countryName,
-      visaType: visaDetails.visaType,
-      processingTime: visaDetails.processingTime,
-      fee: visaDetails.fee,
-      validity: visaDetails.validity,
-    },
-  ];
 
-  // Placeholder for form data
+  // Access user data from AuthContext
+  const { user } = useContext(AuthContext);
+
+  // Load visa details using react-router-dom's useLoaderData
+  const visaDetails = useLoaderData();
+
+  console.log(visaDetails)
+
+  // State to manage form data
   const [formData, setFormData] = useState({
-    email: "",
+    email: user.email, // Pre-fill email with user's email
     firstName: "",
     lastName: "",
-    appliedDate: new Date().toISOString().split("T")[0],
-    fee: 0,
+    appliedDate: new Date().toISOString().split("T")[0], // Pre-fill with current date
+    fee: visaDetails.fee, // Pre-fill fee from visaDetails
   });
 
-  // Placeholder for Apply for Visa button click
+  // Handle Apply for Visa button click
   const handleApplyClick = (visa) => {
     setSelectedVisa(visa);
     setIsModalOpen(true);
   };
 
-  // Placeholder for form input changes
+  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Placeholder for form submission
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsModalOpen(false);
+    const id = visaDetails._id;
+    fetch(`http://localhost:5000/added-visa/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.ok) {
+          toast.success("Visa applied successfully!");
+          return res.json();
+        } else {
+          toast.error("Failed to apply for visa. Please try again later.");
+        }
+      })
+      .then((data) => {
+        console.log("Response data:", data);
+        setIsModalOpen(false); // Close the modal on success
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Failed to apply for visa. Please try again later.");
+      })
+      setIsModalOpen(false)
   };
 
   return (
@@ -57,39 +77,34 @@ const VisaDetails = () => {
           Visa Details
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visas.map((visa, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <img
-                src={visa.countryImage}
-                alt={visa.countryName}
-                className="w-full h-48 object-cover rounded-t-lg"
-              />
-              <h2 className="text-xl font-bold mt-4">{visa.countryName}</h2>
-              <p className="text-gray-600">{visa.visaType}</p>
-              <div className="mt-4 space-y-2">
-                <p>
-                  <span className="font-semibold">Processing Time:</span>{" "}
-                  {visa.processingTime}
-                </p>
-                <p>
-                  <span className="font-semibold">Fee:</span> ${visa.fee}
-                </p>
-                <p>
-                  <span className="font-semibold">Validity:</span> {visa.validity}
-                </p>
-              </div>
-              <button
-                onClick={() => handleApplyClick(visa)}
-                className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-              >
-                Apply for Visa
-              </button>
+          {/* Render visa details */}
+          <div className="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp">
+            <img
+              src={visaDetails.countryImage}
+              alt={visaDetails.countryName}
+              className="w-full h-48 object-cover rounded-t-lg"
+            />
+            <h2 className="text-xl font-bold mt-4">{visaDetails.countryName}</h2>
+            <p className="text-gray-600">{visaDetails.visaType}</p>
+            <div className="mt-4 space-y-2">
+              <p>
+                <span className="font-semibold">Processing Time:</span>{" "}
+                {visaDetails.processingTime}
+              </p>
+              <p>
+                <span className="font-semibold">Fee:</span> ${visaDetails.fee}
+              </p>
+              <p>
+                <span className="font-semibold">Validity:</span> {visaDetails.validity}
+              </p>
             </div>
-          ))}
+            <button
+              onClick={() => handleApplyClick(visaDetails)}
+              className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Apply for Visa
+            </button>
+          </div>
         </div>
       </div>
 
@@ -99,18 +114,21 @@ const VisaDetails = () => {
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md animate__animated animate__fadeIn">
             <h2 className="text-2xl font-bold mb-6">Apply for {selectedVisa?.visaType}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email Field */}
               <div>
                 <label className="block text-sm font-medium mb-2">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
-                  value={user.email}
+                  placeholder={formData.email}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                   required
                   disabled
                 />
               </div>
+
+              {/* First Name Field */}
               <div>
                 <label className="block text-sm font-medium mb-2">First Name</label>
                 <input
@@ -122,6 +140,8 @@ const VisaDetails = () => {
                   required
                 />
               </div>
+
+              {/* Last Name Field */}
               <div>
                 <label className="block text-sm font-medium mb-2">Last Name</label>
                 <input
@@ -133,6 +153,8 @@ const VisaDetails = () => {
                   required
                 />
               </div>
+
+              {/* Applied Date Field */}
               <div>
                 <label className="block text-sm font-medium mb-2">Applied Date</label>
                 <input
@@ -145,18 +167,22 @@ const VisaDetails = () => {
                   disabled
                 />
               </div>
+
+              {/* Fee Field */}
               <div>
                 <label className="block text-sm font-medium mb-2">Fee</label>
                 <input
                   type="number"
                   name="fee"
-                  value={visaDetails.fee}
+                  value={formData.fee}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                   disabled
                 />
               </div>
+
+              {/* Form Actions */}
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
@@ -177,6 +203,7 @@ const VisaDetails = () => {
         </div>
       )}
 
+      {/* Toast Container for notifications */}
       <ToastContainer />
     </div>
   );
