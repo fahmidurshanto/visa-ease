@@ -29,25 +29,28 @@ const MyAddedVisa = () => {
         console.log("Delete button clicked");
     };
 
-    // Handle form submission to update visa data
-    const handleUpdateVisa = (updatedVisa) => {
-        fetch(`http://localhost:5000/added-visa/${updatedVisa._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedVisa),
-        })
-            .then((response) => response.json())
-            .then((data) => {
+  // Handle form submission to update visa data
+const handleUpdateVisa = (updatedVisa) => {
+    fetch(`http://localhost:5000/added-visa/${updatedVisa._id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedVisa),
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            // If update was successful, update the state with the original updatedVisa object
+            if(result.acknowledged) {
                 setAddedVisa((prevVisa) =>
-                    prevVisa.map((visa) => (visa._id === data._id ? data : visa))
+                    prevVisa.map((visa) => (visa._id === updatedVisa._id ? updatedVisa : visa))
                 );
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
 
     // Modal component for updating visa information
     const UpdateVisaModal = ({ visa, onClose, onUpdate }) => {
@@ -176,8 +179,7 @@ const MyAddedVisa = () => {
 
     return (
         <div className="container mx-auto py-40">
-            <h1 className="text-2xl font-bold text-center">My Added Visas</h1>
-            <h1>{addedVisa.length}</h1>
+            <h1 className="text-2xl font-bold text-center">My Added Visas:  {addedVisa.length}</h1>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {addedVisa.map((visa) => (
                     <div key={visa._id} className="space-x-4 bg-gray-100 p-4 rounded-lg shadow-lg mt-4">
