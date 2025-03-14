@@ -25,12 +25,25 @@ const MyAddedVisa = () => {
     };
 
     // Handle delete button click
-    const handleDelete = () => {
-        console.log("Delete button clicked");
-    };
+   const handleDelete = (id) =>{
+    console.log(id)
+        fetch(`http://localhost:5000/added-visa/${id}`, {
+            method: 'DELETE',
+        })
+        .then((response) => response.json())
+        .then((result) => {
+            setAddedVisa(prevVisa => prevVisa.filter(visa => visa._id !== id));
+            toast.success('Visa deleted successfully');
+            setIsModalOpen(false);
+        })
+        .catch((error) => {
+            console.log(error.message);
+        })
+   }
 
   // Handle form submission to update visa data
 const handleUpdateVisa = (updatedVisa) => {
+    console.log(updatedVisa)
     fetch(`http://localhost:5000/added-visa/${updatedVisa._id}`, {
         method: 'PUT',
         headers: {
@@ -196,7 +209,7 @@ const handleUpdateVisa = (updatedVisa) => {
                         </div>
                         <div className="space-x-4 mt-4">
                             <button onClick={() => handleUpdate(visa)} className="bg-amber-500 text-white py-1 px-4 rounded hover:bg-amber-600">Update</button>
-                            <button onClick={handleDelete} className="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600">Delete</button>
+                            <button onClick={() => handleDelete(visa._id)} className="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600">Delete</button>
                         </div>
                     </div>
                 ))}

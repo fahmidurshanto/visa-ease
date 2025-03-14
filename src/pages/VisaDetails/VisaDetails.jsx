@@ -18,13 +18,15 @@ const VisaDetails = () => {
 
   console.log(visaDetails)
 
+
+
   // State to manage form data
   const [formData, setFormData] = useState({
-    email: user.email, // Pre-fill email with user's email
+    email: user?.email,
     firstName: "",
     lastName: "",
-    appliedDate: new Date().toISOString().split("T")[0], // Pre-fill with current date
-    fee: visaDetails.fee, // Pre-fill fee from visaDetails
+    appliedDate: new Date().toISOString().split("T")[0],
+    fee: visaDetails?.fee,
   });
 
   // Handle Apply for Visa button click
@@ -44,7 +46,7 @@ const VisaDetails = () => {
     e.preventDefault();
     const id = visaDetails._id;
     fetch(`http://localhost:5000/added-visa/${id}`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,7 +63,7 @@ const VisaDetails = () => {
       })
       .then((data) => {
         console.log("Response data:", data);
-        setIsModalOpen(false); // Close the modal on success
+        setIsModalOpen(false); 
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -107,10 +109,13 @@ const VisaDetails = () => {
           </div>
         </div>
       </div>
+      <ToastContainer 
+      position="bottom-right" />
 
       {/* Apply for Visa Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+           {/* Toast Container for notifications */}
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md animate__animated animate__fadeIn">
             <h2 className="text-2xl font-bold mb-6">Apply for {selectedVisa?.visaType}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -189,6 +194,7 @@ const VisaDetails = () => {
                   onClick={() => setIsModalOpen(false)}
                   className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-200"
                 >
+
                   Cancel
                 </button>
                 <button
@@ -203,8 +209,7 @@ const VisaDetails = () => {
         </div>
       )}
 
-      {/* Toast Container for notifications */}
-      <ToastContainer />
+     
     </div>
   );
 };
