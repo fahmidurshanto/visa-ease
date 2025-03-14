@@ -12,7 +12,7 @@ const AllVisa = () => {
       .then((res) => res.json())
       .then((data) => {
         setVisas(data);
-        setFilteredVisas(data); 
+        setFilteredVisas(data); // Initialize filtered visas with all visas
       });
   }, []);
 
@@ -23,39 +23,12 @@ const AllVisa = () => {
 
     if (selectedType === "All") {
       setFilteredVisas(visas); // Show all visas
-
-      const filtered = visas.filter((visa) => {
-        return selectedType.toLowerCase() === visa?.visaType.toLowerCase();
-      });
-      setFilteredVisas(filtered); 
-    } 
-    else if(selectedType === "Student"){
-      const filtered = visas.filter((visa) => {
-        return selectedType.toLowerCase() === visa?.visaType.toLowerCase();
-      });
-      setFilteredVisas(filtered); 
-      console.log(filtered)
-    }
-    else if(selectedType === "Business"){
-      const filtered = visas.filter((visa) => {
-        return selectedType.toLowerCase() === visa?.visaType.toLowerCase();
-      });
-      setFilteredVisas(filtered); 
-      console.log(filtered)
-    }
-    else if(selectedType === "Work"){
-      const filtered = visas.filter((visa) => {
-        return selectedType.toLowerCase() === visa?.visaType.toLowerCase();
-      });
-      setFilteredVisas(filtered); 
-      console.log(filtered)
-    }
-    else {
-      const filtered = visas.filter((visa) => {
-        return selectedType.toLowerCase() === visa?.visaType.toLowerCase();
-      });
-      setFilteredVisas(filtered); 
-      console.log(filtered)
+    } else {
+      // Filter visas based on the selected type
+      const filtered = visas.filter((visa) =>
+        visa.visaType.toLowerCase().includes(selectedType.toLowerCase())
+      );
+      setFilteredVisas(filtered); // Show filtered visas
     }
   };
 
