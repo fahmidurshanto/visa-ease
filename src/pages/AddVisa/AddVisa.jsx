@@ -49,7 +49,6 @@ const AddVisa = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.insertedId) {
           toast.success("Visa added successfully!");
           form.reset(); // Reset the form after successful submission
@@ -106,6 +105,10 @@ const AddVisa = () => {
               <option value="Schengen Tourist Visa">Schengen Tourist Visa</option>
               <option value="Student Visa">Student Visa</option>
               <option value="Official Visa">Official Visa</option>
+              <option value="Business Visa">Business Visa</option>
+              <option value="Work Visa">Work Visa</option>
+              <option value="Tourist Visa">Tourist Visa</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 

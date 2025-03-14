@@ -45,25 +45,22 @@ const VisaDetails = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const id = visaDetails._id;
-    fetch(`http://localhost:5000/added-visa/${id}`, {
+    const appliedVisa = {
+      formData, 
+      visaDetails
+    }
+    fetch(`http://localhost:5000/applied-visa/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(appliedVisa),
     })
-      .then((res) => {
-        console.log(res);
-        if (res.ok) {
-          toast.success("Visa applied successfully!");
-          return res.json();
-        } else {
-          toast.error("Failed to apply for visa. Please try again later.");
-        }
-      })
+      .then(res => res.json())
       .then((data) => {
-        console.log("Response data:", data);
         setIsModalOpen(false); 
+        console.log("Response data:", data);
+        toast.success("Visa applied successfully!");
       })
       .catch((error) => {
         console.error("Error:", error);
