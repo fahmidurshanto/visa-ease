@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer"
 function App() {
 
   return (
-    <div className="container mx-auto">
+    <div>
       <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>

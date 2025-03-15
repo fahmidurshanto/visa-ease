@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const MyAddedVisa = () => {
     const [addedVisa, setAddedVisa] = useState([]);
@@ -57,35 +58,38 @@ const handleUpdateVisa = (updatedVisa) => {
             if(result.acknowledged) {
                 setAddedVisa((prevVisa) =>
                     prevVisa.map((visa) => (visa._id === updatedVisa._id ? updatedVisa : visa))
-                );
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            );
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 };
 
-    // Modal component for updating visa information
-    const UpdateVisaModal = ({ visa, onClose, onUpdate }) => {
-        const [formData, setFormData] = useState(visa);
-
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        };
-
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            onUpdate(formData);
+// Modal component for updating visa information
+const UpdateVisaModal = ({ visa, onClose, onUpdate }) => {
+    const [formData, setFormData] = useState(visa);
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onUpdate(formData);
+        toast.success('Visa updated successfully');
             onClose();
+
         };
 
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-6 rounded-lg w-full max-w-2xl">
+                
                     <h2 className="text-xl font-bold mb-4">Update Visa Information</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
@@ -193,6 +197,8 @@ const handleUpdateVisa = (updatedVisa) => {
     return (
         <div className="container mx-auto py-40">
             <h1 className="text-2xl font-bold text-center">My Added Visas:  {addedVisa.length}</h1>
+            <p className=" text-red-600 text-xl font-extralight my-4">Please refresh the page after updating the visa information</p>
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {addedVisa.map((visa) => (
                     <div key={visa._id} className="space-x-4 bg-gray-100 p-4 rounded-lg shadow-lg mt-4">
@@ -221,6 +227,7 @@ const handleUpdateVisa = (updatedVisa) => {
                     onUpdate={handleUpdateVisa}
                 />
             )}
+            <ToastContainer position="bottom-right"></ToastContainer>
         </div>
     );
 };
