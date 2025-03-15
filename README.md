@@ -1,6 +1,6 @@
 # Visa Ease
 
-**Live Site URL:** [https://visa-ease.vercel.app/](https://visa-ease.vercel.app/)
+**Live Site URL:** [https://visa-ease.netlify.app/](https://visa-ease.netlify.app/)
 
 Visa Ease is a comprehensive platform designed to simplify the visa application process. Whether you're planning a vacation, business trip, or study abroad, Visa Navigator provides all the information and tools you need to navigate visa requirements with ease.
 
