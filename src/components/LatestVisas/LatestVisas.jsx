@@ -4,73 +4,16 @@ import { Link } from "react-router-dom";
 
 const LatestVisas = () => {
   const [visas, setVisas] = useState([]);
-  // // Sample visa data
-  // const visas = [
-  //   {
-  //     country: "United States",
-  //     image: "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2099&q=80",
-  //     visaType: "Tourist Visa",
-  //     processingTime: "10-15 Business Days",
-  //     fee: "$160",
-  //     validity: "6 Months",
-  //     applicationMethod: "Online",
-  //   },
-  //   {
-  //     country: "Canada",
-  //     image: "https://images.unsplash.com/photo-1526779259212-939e64788e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
-  //     visaType: "Student Visa",
-  //     processingTime: "20-25 Business Days",
-  //     fee: "$150",
-  //     validity: "1 Year",
-  //     applicationMethod: "Online",
-  //   },
-  //   {
-  //     country: "Australia",
-  //     image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-  //     visaType: "Work Visa",
-  //     processingTime: "15-20 Business Days",
-  //     fee: "$300",
-  //     validity: "2 Years",
-  //     applicationMethod: "Online",
-  //   },
-  //   {
-  //     country: "United Kingdom",
-  //     image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1965&q=80",
-  //     visaType: "Business Visa",
-  //     processingTime: "5-10 Business Days",
-  //     fee: "$200",
-  //     validity: "1 Year",
-  //     applicationMethod: "Online",
-  //   },
-  //   {
-  //     country: "France",
-  //     image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80",
-  //     visaType: "Tourist Visa",
-  //     processingTime: "7-12 Business Days",
-  //     fee: "$120",
-  //     validity: "3 Months",
-  //     applicationMethod: "Online",
-  //   },
-  //   {
-  //     country: "Japan",
-  //     image: "https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
-  //     visaType: "Tourist Visa",
-  //     processingTime: "5-7 Business Days",
-  //     fee: "$90",
-  //     validity: "3 Months",
-  //     applicationMethod: "Online",
-  //   },
-  // ];
+  
   useEffect(() => {
     fetch("http://localhost:5000/all-visa")
     .then(res => res.json())
     .then(data => setVisas(data))
   }, [])
 
-console.log(visas)
 
   return (
-    <div className="bg-gray-100 py-12">
+    <div className="py-12 dark:bg-gray-900 bg-gray-100 dark:text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 animate__animated animate__fadeInDown">
           Latest Visas

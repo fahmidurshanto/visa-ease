@@ -5,7 +5,7 @@ import Testimonials from "../../components/Testimonials/Testimonials";
 
 const Home = () => {
     return (
-        <div className="py-10 ">
+        <div className="py-10 relative bg-gray-100 dark:bg-gray-900">
             <Banner></Banner>
             <LatestVisas></LatestVisas>
             <FeaturedDestinations></FeaturedDestinations>

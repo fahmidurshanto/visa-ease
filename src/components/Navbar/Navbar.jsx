@@ -3,6 +3,7 @@ import "animate.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
+import ThemeToggle from "../../utils/ThemeToggle";
 
 const Navbar = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -92,6 +93,7 @@ const Navbar = () => {
             </>
           )}
         </div>
+        <ThemeToggle></ThemeToggle>
 
         {/* Conditional Login/Register or User Profile (Desktop) */}
         <div className="hidden lg:flex items-center space-x-4">
