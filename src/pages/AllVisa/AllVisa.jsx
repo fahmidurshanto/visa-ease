@@ -28,7 +28,7 @@ const AllVisa = () => {
       const filtered = visas.filter((visa) =>
         visa.visaType.toLowerCase().includes(selectedType.toLowerCase())
       );
-      setFilteredVisas(filtered); // Show filtered visas
+      setFilteredVisas(filtered); 
     }
   };
 

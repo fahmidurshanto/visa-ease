@@ -9,11 +9,13 @@ import PrivateRoute from "./PrivateRoute";
 import VisaDetails from "../pages/VisaDetails/VisaDetails";
 import MyAddedVisa from "../pages/MyAddedVisa/MyAddedVisa";
 import VisaApplications from "../pages/VisaApplications/VisaApplications";
+import NotFoundPage from "../utils/NotFoundPage";
 
 const Router = createBrowserRouter([
     {
         path: "/",
         element: <App></App>,
+        errorElement: <NotFoundPage></NotFoundPage>,
         children: [
             {
                 path: "/",
