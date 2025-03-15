@@ -49,7 +49,7 @@ const VisaDetails = () => {
       formData, 
       visaDetails
     }
-    fetch(`http://localhost:5000/applied-visa/${id}`, {
+    fetch(`https://visa-ease-backend.vercel.app/applied-visa/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   useEffect(() =>{
-    fetch("http://localhost:5000/users")
+    fetch("https://visa-ease-backend.vercel.app/users")
     .then(res => res.json())
     .then(data =>setUsers(data))
   },[])
@@ -44,7 +44,7 @@ const Register = () => {
     const password = form.password.value;
     const user = { name, email, photoURL };
 
-    fetch("http://localhost:5000/users",{
+    fetch("https://visa-ease-backend.vercel.app/users",{
       method: "POST",
       headers: {
         "content-type": "application/json"

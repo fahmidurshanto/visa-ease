@@ -6,7 +6,7 @@ const VisaApplications = () => {
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   useEffect(() => {
-    fetch("http://localhost:5000/applied-visa")
+    fetch("https://visa-ease-backend.vercel.app/applied-visa")
       .then((res) => res.json())
       .then((data) => setVisaApplications(data));
   }, []);
@@ -21,7 +21,7 @@ const VisaApplications = () => {
 
   // Function to reset search and show all applications
   const handleReset = () => {
-    fetch("http://localhost:5000/applied-visa")
+    fetch("https://visa-ease-backend.vercel.app/applied-visa")
       .then((res) => res.json())
       .then((data) => setVisaApplications(data));
     setSearchTerm(""); // Clear the search term
@@ -30,7 +30,7 @@ const VisaApplications = () => {
   const handleDelete = (id) =>{
     const confirmDelete = window.confirm("Are you sure you want to delete this visa application?");
     if(confirmDelete){
-    fetch(`http://localhost:5000/applied-visa/${id}`, {
+    fetch(`https://visa-ease-backend.vercel.app/applied-visa/${id}`, {
         method: "DELETE",
     })
     .then((res) => res.json())

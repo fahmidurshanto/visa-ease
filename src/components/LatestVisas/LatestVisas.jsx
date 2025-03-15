@@ -6,7 +6,7 @@ const LatestVisas = () => {
   const [visas, setVisas] = useState([]);
   
   useEffect(() => {
-    fetch("http://localhost:5000/all-visa")
+    fetch("https://visa-ease-backend.vercel.app/all-visa")
     .then(res => res.json())
     .then(data => setVisas(data))
   }, [])

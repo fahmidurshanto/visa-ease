@@ -6,7 +6,7 @@ import Footer from "./components/Footer/Footer"
 
 function App() {
   return (
-    <div>
+    <div className="text-black">
       <Navbar></Navbar>
       <Outlet></Outlet>
       <Footer></Footer>

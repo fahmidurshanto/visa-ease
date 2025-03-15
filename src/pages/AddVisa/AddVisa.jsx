@@ -40,7 +40,7 @@ const AddVisa = () => {
     setVisaInfo(formData)
 
     // Send data to the backend
-    fetch("http://localhost:5000/added-visa", {
+    fetch("https://visa-ease-backend.vercel.app/added-visa", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

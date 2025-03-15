@@ -37,7 +37,7 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/all-visas/:_id",
-                loader: ({params})=> fetch(`http://localhost:5000/all-visa/${params._id}`).then((res)=>res.json()),
+                loader: ({params})=> fetch(`https://visa-ease-backend.vercel.app/all-visa/${params._id}`).then((res)=>res.json()),
                 element: <PrivateRoute><VisaDetails></VisaDetails></PrivateRoute>
             },
             {

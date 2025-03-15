@@ -8,7 +8,7 @@ const MyAddedVisa = () => {
 
     // Fetch visa data on component mount
     useEffect(() => {
-        fetch("http://localhost:5000/added-visa")
+        fetch("https://visa-ease-backend.vercel.app/added-visa")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -28,7 +28,7 @@ const MyAddedVisa = () => {
     // Handle delete button click
    const handleDelete = (id) =>{
     console.log(id)
-        fetch(`http://localhost:5000/added-visa/${id}`, {
+        fetch(`https://visa-ease-backend.vercel.app/added-visa/${id}`, {
             method: 'DELETE',
         })
         .then((response) => response.json())
@@ -45,7 +45,7 @@ const MyAddedVisa = () => {
   // Handle form submission to update visa data
 const handleUpdateVisa = (updatedVisa) => {
     console.log(updatedVisa)
-    fetch(`http://localhost:5000/added-visa/${updatedVisa._id}`, {
+    fetch(`https://visa-ease-backend.vercel.app/added-visa/${updatedVisa._id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

@@ -1,12 +1,29 @@
-# React + Vite
+# Visa Ease
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Site URL:** [https://visa-ease.vercel.app/](https://visa-ease.vercel.app/)
 
-Currently, two official plugins are available:
+Visa Ease is a comprehensive platform designed to simplify the visa application process. Whether you're planning a vacation, business trip, or study abroad, Visa Navigator provides all the information and tools you need to navigate visa requirements with ease.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **🌍 Explore Visa Options:** Discover visa types, processing times, and required documents for various countries.
+- **📅 Latest Visa Updates:** Stay informed about the latest visa policies and updates.
+- **🌟 Featured Destinations:** Get inspired by our curated list of top travel destinations.
+- **💬 Testimonials:** Hear from satisfied users who successfully navigated their visa journey with us.
+- **🌙 Dark Mode:** Enjoy a seamless user experience with a built-in dark/light theme toggle.
+
+---
+
+## Technologies Used
+
+- **Frontend:** React, Tailwind CSS, Animate.css
+- **State Management:** React Router, React Hooks
+- **Theming:** `next-themes` for dark/light mode toggling
+- **Animation:** React Spinners, React Slick
+- **Backend:** Firebase (for authentication and data storage)
+- **Deployment:** Vercel
+
+---
+
